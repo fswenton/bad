@@ -100,7 +100,7 @@ void go(string s)
   vector<double> a = s2a(s);
 
   // Be polite and give the the user the basic stats on their data
-  cout << "Thanks!\n" << "The minimum is " << m1(a) << ",\nthe maximum is " << m2(a) << ",\nthe median is " << m3(a) << ",\nand the average is " << m0(a) << ".\n\n";
+  cout << "Thanks!\n" << "The minimum is " << m1(a) << ",\nthe maximum is " << m2(a) << ",\nthe median is " << m3(a) << ",\nand the mean is " << m0(a) << ".\n\n";
 
   return;
 
