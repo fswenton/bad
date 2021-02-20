@@ -68,7 +68,7 @@ double m3(vector<double> a)
 
 }
 
-// This will parse a lien of whitespace-separated numbers into an array
+// This will parse a line of whitespace-separated numbers into an array
 // The first number is the count of numbers, and the rest are the numbers
 vector<double> s2a(string s) {
   istringstream iss(s);
