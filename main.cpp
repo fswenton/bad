@@ -7,9 +7,9 @@ using namespace std;
 
 namespace vectorStats {
     double mean(vector<double> numbers);
-    double min(vector<double> numbers);
-    double max(vector<double> numbers);
-    double median(vector<double> numbers);
+    double min(vector<double> numbers, bool preSorted = false);
+    double max(vector<double> numbers, bool preSorted = false);
+    double median(vector<double> numbers, bool preSorted = false);
 };
 
 namespace statsGen {
@@ -39,10 +39,11 @@ void statsGen::run(vector<double> numbers){
         cout << "There are no stats for zero numbers" << endl;
         return;
     }
+    sort(numbers.begin(), numbers.end());
     cout << "Thanks!" << endl;
-    cout << "The minimum is: " << vectorStats::min(numbers) << "," << endl;
-    cout << "the maximum is: " << vectorStats::max(numbers) << "," << endl;
-    cout << "the median is: " << vectorStats::median(numbers) << "," << endl;
+    cout << "The minimum is: " << vectorStats::min(numbers, true) << "," << endl;
+    cout << "the maximum is: " << vectorStats::max(numbers, true) << "," << endl;
+    cout << "the median is: " << vectorStats::median(numbers, true) << "," << endl;
     cout << "and the mean is: " << vectorStats::mean(numbers) << ".\n" << endl;
 
     return;
@@ -74,22 +75,25 @@ double vectorStats::mean(vector<double> numbers){
 }
 
 // This function computes the minimum value of a vector of doubles called "numbers"
-double vectorStats::min(vector<double> numbers){
-    sort(numbers.begin(), numbers.end());
+// If the vector is already sorted from low to high then set preSorted to true to reduce computation
+double vectorStats::min(vector<double> numbers, bool preSorted){
+    if(!preSorted) sort(numbers.begin(), numbers.end());
 
     return numbers[0];
 }
 
 // This function computes the maximum value of a vector of doubles called "numbers"
-double vectorStats::max(vector<double> numbers){
-    sort(numbers.begin(), numbers.end());
+// If the vector is already sorted from low to high then set preSorted to true to reduce computation
+double vectorStats::max(vector<double> numbers, bool preSorted){
+    if(!preSorted) sort(numbers.begin(), numbers.end());
 
     return numbers[ numbers.size() - 1 ];
 }
 
 // This function computes the median of a vector of doubles called "numbers"
-double vectorStats::median(vector<double> numbers){
-  sort(numbers.begin(), numbers.end());
+// If the vector is already sorted from low to high then set preSorted to true to reduce computation
+double vectorStats::median(vector<double> numbers, bool preSorted){
+  if(!preSorted) sort(numbers.begin(), numbers.end());
 
   // If we have an odd number of elements, the median is the middle one
   if (numbers.size() % 2){
