@@ -5,21 +5,19 @@
 
 using namespace std;
 
-// This function computes the mean of a vector of doubles called "a"
 double m0(vector<double> a)
 {
-  // This is the sum
-  double s = 0.0;
+  double sum = 0.0;
 
  // Loop through all elements of the array
   for (unsigned int i = 0; i < a.size(); ++i)
   {
     // Add the element to the sum
-    s += a[i];
+    sum += a[i];
   }
 
    // The mean is the sum divided by the count---return that
-  return s/a.size();
+  return sum/a.size();
 
 }
 
