@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// This class will parse inputs and provide an output function
 class NumberInterpreter{
     private:
         vector<double> numbers;
@@ -16,8 +17,10 @@ class NumberInterpreter{
         double median();
         void sortSelf(){ sort(numbers.begin(), numbers.end()); sorted = true; };
     public:
-        NumberInterpreter(string x);
+        NumberInterpreter(vector<double> _numbers) : numbers{_numbers}, sorted{false} {}
         void outputStats();
+
+        static vector<double> parseInput(string x);
 };
 
 int main(void){
@@ -28,9 +31,9 @@ int main(void){
 
     while (getline(cin, inputLine)) {
         if ( inputLine.empty()) break;
-        NumberInterpreter numbers(inputLine);
-        numbers.outputStats();
-
+        vector<double> numbers = NumberInterpreter::parseInput(inputLine);
+        NumberInterpreter statGenerator(numbers);
+        statGenerator.outputStats();
     }
 
     return 0;
@@ -38,7 +41,7 @@ int main(void){
 
 // This will parse a line of whitespace-separated numbers into an array.
 // The first number is the count of numbers, and the rest are the numbers.
-NumberInterpreter::NumberInterpreter(string input) {
+vector<double> NumberInterpreter::parseInput(string input) {
     istringstream iss(input);
     int n;
     iss >> n;
@@ -47,8 +50,7 @@ NumberInterpreter::NumberInterpreter(string input) {
     for (int i = 0; i < n; i++){
         iss >> parsedNumbers[i];
     }
-    sorted = false;
-    numbers = parsedNumbers;
+    return parsedNumbers;
 }
 
 // This where the magic happens! Be polite and give the the user the basic stats on their data.
