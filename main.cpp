@@ -5,122 +5,96 @@
 
 using namespace std;
 
-// This function computes the mean of a vector of doubles called "a"
-double m0(vector<double> a)
-{
-  // This is the sum
-  double s = 0.0;
+class BasicStats{
+public:
+    string str;
 
- // Loop through all elements of the array
-  for (unsigned int i = 0; i < a.size(); ++i)
-  {
-    // Add the element to the sum
-    s += a[i];
-  }
+    BasicStats(string in_str){
+        // Turn our string of input into an array (above)
+        stringToArray(in_str);
+    }
 
-   // The mean is the sum divided by the count---return that
-  return s/a.size();
+    double mean(){
+      double sum = 0.0;
 
-}
+      for (unsigned int i = 0; i < array.size(); i++){
+        sum += array[i];
+      }
 
-// This function computes the minimum value of a vector of doubles called "a"
-double m1(vector<double> a)
-{
+      return sum/array.size();
+    }
 
-  // First, we sort the array
-  sort(a.begin(), a.end());
+    double min(){
+      sort(array.begin(), array.end());
+      return array[0];
+    }
 
-  // Now we just return the first element, which after sorting is the minimum
-  return a[0];
+    double max(){
+      sort(array.begin(), array.end());
+      return array[ array.size() - 1 ];
+    }
 
-}
+    double median(){
+      sort(array.begin(), array.end());
 
-// This function computes the maximum value of a vector of doubles called "a"
-double m2(vector<double> a)
-{
+      if (array.size() % 2){
+         //if even
+        return array[ (array.size() - 1 ) / 2];
+      } else {
+        // if odd, we average the values of the two middlemost elements
+        return 0.5*(array[ array.size() / 2 ] + array[ array.size() / 2 - 1]);
+      }
 
-  // First, we sort the array
-  sort(a.begin(), a.end());
-
-  // Now we just return the last element, which after sorting is the Maximum
-  return a[ a.size() - 1 ];
-
-}
-
-// This function computes the median of a vector of doubles called "a"
-double m3(vector<double> a)
-{
-
-  // First, we sort the array
-  sort(a.begin(), a.end());
-
-  // This bit's a little tricky
-  if (a.size() % 2)
-  {
-    // If we have an odd number of elements, the median is the middle one
-    return a[ (a.size() - 1 ) / 2];
-  }
-  else
-  {
-    // Otherwise, we average the values of the two middlemost elements
-    return 0.5*(a[ a.size() / 2 ] + a[ a.size() / 2 - 1]);
-  }
-
-}
-
-// This will parse a line of whitespace-separated numbers into an array
-// The first number is the count of numbers, and the rest are the numbers
-vector<double> s2a(string s) {
-  istringstream iss(s);
-
-  // "n" is the number of elements in our array, which comes first
-  int n;
-
-  iss >> n;
-
-  vector<double> a(n);
-
-  for (int i = 0;
-       i < n;
-       ++i)
-  {
-    iss >> a[i];
-  }
+    }
 
 
-  return a;
+private:
+    vector<double> array;
 
-}
+    // This will parse a line of whitespace-separated numbers into an array
+    // The first number is the count of numbers, and the rest are the numbers
+    void stringToArray(string in_str) {
+      istringstream stream(in_str);
+      int numElts;
 
-// This where the magic happens!
-void go(string s)
-{
+      stream >> numElts;
 
-  // Turn our string of input into an array (above)
-  vector<double> a = s2a(s);
+      vector<double> createArray(numElts);
 
-  // Be polite and give the the user the basic stats on their data
-  cout << "Thanks!\n" << "The minimum is " << m1(a) << ",\nthe maximum is " << m2(a) << ",\nthe median is " << m3(a) << ",\nand the mean is " << m0(a) << ".\n\n";
+      for (int i = 0; i < numElts; i++) {
+        stream >> createArray[i];
+      }
 
-  return;
+      array = createArray;
+    }
 
-}
+};
+
 
 int main(void)
 {
 
   cout << "Please enter, on one line, the count of numbers followed by the numbers themselves, separated by spaces.\nEnter a blank line to exit.\n\n";
 
-  string s;
+  string str;
 
-  while ( getline( cin , s ) ) {
+  while ( getline( cin , str ) ) {
 
-    if ( s.length( ) == 0 )
+    if ( str.length( ) == 0 )
         break;
 
-    go(s);
+    BasicStats stats(str);
+    double min = stats.min();
+    double max = stats.max();
+    double median = stats.median();
+    double mean = stats.mean();
+
+    cout << "Thanks!\n" << "The minimum is " << min << ",\nthe maximum is " << max << ",\nthe median is " << median<< ",\nand the mean is " << mean << ".\n\n";
 
   }
+
+
+//  return;
 
   return 0;
 }
