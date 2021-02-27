@@ -32,9 +32,11 @@ double maximum(vector<double> nums) {
 // This function computes the median of a vector of doubles called "nums"
 double median(vector<double> nums) {
   sort(nums.begin(), nums.end());
+  // If number of elements is odd, return average the two middle elements
   if (nums.size() % 2 != 0) {
     return nums[(nums.size() - 1 ) / 2];
   }
+  // If number of elements is even, return middle element
   return (0.5*(nums[nums.size() / 2] + nums[nums.size() / 2 - 1]));
 
 }
@@ -46,6 +48,7 @@ vector<double> findNums(string str) {
   int numElem;
   strStream >> numElem;
   vector<double> nums(numElem);
+  //Loop through all elements in the string and parse them into a vector
   for (int i = 0; i < numElem; i++) {
     strStream >> nums[i];
   }
