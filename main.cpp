@@ -20,8 +20,11 @@ public:
     Stats(string str);
 
     // public methods
-    void parser();
     void getStats();
+
+private:
+    // private methods
+    void parser();
     void getMean();
     void getMin();
     void getMax();
@@ -90,8 +93,7 @@ void Stats::getMean() {
   }
 
   // The mean is the sum divided by the count---return that
-  // casting the array size as a double for proper division
-  mean = sum/(double)array.size();
+  mean = sum/array.size();
   return;
 }
 
