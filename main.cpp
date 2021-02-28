@@ -5,39 +5,32 @@
 
 using namespace std;
 
-// calculates mean of numbers
 double mean(vector<double> numList) {
   double sum = 0.0;
   for (unsigned int i = 0; i < numList.size(); ++i) {
-    // Add the element to the sum
     sum += numList[i];
   }
   return sum/numList.size();
 }
 
-// calculates min
 double min(vector<double> numList) {
   sort(numList.begin(), numList.end());
   return numList[0];
 }
 
-// caclulates max
 double max(vector<double> numList) {
   sort(numList.begin(), numList.end());
   return numList[ numList.size() - 1 ];
 }
 
-// calculates median
 double median(vector<double> numList) {
   sort(numList.begin(), numList.end());
-
   if (numList.size() % 2) {
-     // if even number of elements
-     return 0.5*(numList[ numList.size() / 2 ] + numList[ (numList.size() / 2) - 1]);
-
+      // if even number of elements
+      return 0.5*((numList[ numList.size() / 2 ] + numList[ (numList.size() / 2) - 1]));
   } else {
-     //odd number of elements
-     return numList[ (numList.size() - 1 ) / 2];
+      //odd number of elements
+      return numList[ (numList.size() - 1 ) / 2];
   }
 }
 
@@ -56,11 +49,8 @@ vector<double> s2a(string s) {
   return numList;
 }
 
-void go(string s) {
-
-  // Turn our string of input into an array (above)
+void displayResults(string s) {
   vector<double> numList = s2a(s);
-  // Be polite and give the the user the basic stats on their data
   cout << "Thanks!\n" << "The minimum is " << min(numList) << ",\nthe maximum is " << max(numList) << ",\nthe median is " << median(numList) << ",\nand the mean is " << mean(numList) << ".\n\n";
   return;
 }
@@ -71,7 +61,7 @@ int main(void) {
   while ( getline( cin , s ) ) {
     if ( s.length( ) == 0 )
         break;
-    go(s);
+    displayResults(s);
   }
   return 0;
 }
