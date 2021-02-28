@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// calculates mean
+// calculates mean of numbers
 double mean(vector<double> numList) {
   double sum = 0.0;
   for (unsigned int i = 0; i < numList.size(); ++i) {
