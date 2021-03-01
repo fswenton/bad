@@ -8,7 +8,7 @@
 
 using namespace std;
 
-// class Bad with instance variable that is a number array
+// class Bad that include statistical analysis of a number array
 class Bad {
 public:
     vector<double> numarray;
@@ -21,8 +21,8 @@ public:
     double getMin();
     double getMax();
     double getMedian();
+    void printSummary();
 };
-
 
 // This method computes the mean of a vector of doubles called "a"
 double Bad::getMean() {
@@ -67,14 +67,23 @@ double Bad::getMedian() {
     // Sort the array
     sort(numarray.begin(), numarray.end());
 
-    if (numarray.size() % 2 == 0) {
-        // For even number of elements, average the values of the two middlemost elements
-        return 0.5*(numarray[ numarray.size() / 2 ] + numarray[ numarray.size() / 2 - 1]);
-    }
-    else {
-        // Otherwise, the median is the middle one
+    if (numarray.size() % 2) {
+        // odd number of elements, the median is the middle one
         return numarray[ (numarray.size() - 1 ) / 2];
     }
+    else {      
+        // otherwise, average the values of the two middlemost elements
+        return 0.5*(numarray[ numarray.size() / 2 ] + numarray[ numarray.size() / 2 - 1]);
+    }
+}
+
+void Bad::printSummary() {
+    cout << "Thanks!\n" << "The minimum is " << getMin() << ",\n";
+    cout << "the maximum is " << getMax() << ",\n";
+    cout << "the median is " << getMedian() << ",\n";
+    cout << "and the mean is " << getMean() << ".\n\n";
+
+    return;
 }
 
 // This function parses a line of whitespace-separated numbers and return an object of Bad class
@@ -97,22 +106,18 @@ Bad s2a(string s) {
 
 int main(void) {
 
-    cout << "Please enter, on one line, the count of numbers followed by the numbers themselves, separated by spaces.\nEnter a blank line to exit.\n\n";
+    cout << "Please enter, on one line, the count of numbers followed by the numbers themselves, separated by spaces.\n";
+    cout << "Enter a blank line to exit.\n\n";
 
     string s;
 
     while ( getline(cin , s) ) {
-
         if ( s.length() == 0 )
             break;
 
+        // create object bad of class Bad
         Bad bad = s2a(s);
-
-        cout << "Thanks!\n" << "The minimum is " << bad.getMin() << ",\n";
-        cout << "the maximum is " << bad.getMax() << ",\n";
-        cout << "the median is " << bad.getMedian() << ",\n";
-        cout << "and the mean is " << bad.getMean() << ".\n\n";
-
+        bad.printSummary();
     }
     return 0;
 }
