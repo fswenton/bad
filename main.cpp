@@ -5,25 +5,41 @@
 
 using namespace std;
 
-double mean(vector<double> numList) {
+class simpleStats {
+public:
+    vector <double> numList;
+
+    //constructor
+    simpleStats(vector <double> array): numList(array) { }
+
+    //methods
+    double mean();
+    double min();
+    double max();
+    double median();
+    void displayResults();
+
+};
+
+double simpleStats::mean() {
   double sum = 0.0;
-  for (unsigned int i = 0; i < numList.size(); ++i) {
+  for (unsigned int i = 0; i < numList.size(); i++) {
     sum += numList[i];
   }
   return sum/numList.size();
 }
 
-double min(vector<double> numList) {
+double simpleStats::min() {
   sort(numList.begin(), numList.end());
   return numList[0];
 }
 
-double max(vector<double> numList) {
+double simpleStats::max() {
   sort(numList.begin(), numList.end());
   return numList[ numList.size() - 1 ];
 }
 
-double median(vector<double> numList) {
+double simpleStats::median() {
   sort(numList.begin(), numList.end());
   if (numList.size() % 2) {
       // if even number of elements
@@ -41,17 +57,15 @@ vector<double> s2a(string s) {
   int count;
   iss >> count;
   vector<double> numList(count);
-  for (int i = 0;
-       i < count;
-       ++i) {
+  for (int i = 0; i < count; i++) {
     iss >> numList[i];
   }
   return numList;
 }
 
-void displayResults(string s) {
-  vector<double> numList = s2a(s);
-  cout << "Thanks!\n" << "The minimum is " << min(numList) << ",\nthe maximum is " << max(numList) << ",\nthe median is " << median(numList) << ",\nand the mean is " << mean(numList) << ".\n\n";
+void simpleStats::displayResults() {
+
+  cout << "Thanks!\n" << "The minimum is " << min() << ",\nthe maximum is " << max() << ",\nthe median is " << median() << ",\nand the mean is " << mean() << ".\n\n";
   return;
 }
 
@@ -61,7 +75,8 @@ int main(void) {
   while ( getline( cin , s ) ) {
     if ( s.length( ) == 0 )
         break;
-    displayResults(s);
+    simpleStats stats = s2a(s);
+    stats.displayResults();
   }
   return 0;
 }
