@@ -54,7 +54,7 @@ class vectorStats {
       iss >> n;
       vector<double> a(n);
 
-      for (int i = 0;i < n;++i) {
+      for(int i = 0;i < n;++i) {
         iss >> a[i];
       }
       return a;
@@ -85,11 +85,9 @@ int main(void) {
 
   while(getline(cin, s)) {
     if(s.length() == 0) {
-        cout << "0";
         return 0;
     }
     else {
-        cout << "1";
         testVector.go(s);
     }
   }
