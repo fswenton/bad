@@ -1,3 +1,6 @@
+// Jiaqi Li
+// CSCI318 Assignment 1 Clean-up
+
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -5,122 +8,108 @@
 
 using namespace std;
 
-// This function computes the mean of a vector of doubles called "a"
-double m0(vector<double> a)
-{
-  // This is the sum
-  double s = 0.0;
+// class Bad with instance variable that is a number array
+class Bad {
+public:
+    vector<double> numarray;
 
- // Loop through all elements of the array
-  for (unsigned int i = 0; i < a.size(); ++i)
-  {
-    // Add the element to the sum
-    s += a[i];
-  }
+    // constructor
+    Bad(vector<double> a): numarray(a) { }
 
-   // The mean is the sum divided by the count---return that
-  return s/a.size();
+    // methods
+    double getMean();
+    double getMin();
+    double getMax();
+    double getMedian();
+};
+
+
+// This method computes the mean of a vector of doubles called "a"
+double Bad::getMean() {
+    // This is the sum
+    double sum = 0.0;
+
+    // Loop through all elements of the array
+    for (unsigned int i = 0; i < numarray.size(); ++i) {
+        // Add the element to the sum
+        sum += numarray[i];
+    }
+
+    // The mean is the sum divided by the count---return that
+    return sum/numarray.size();
+}
+
+// This method computes the minimum value of a vector of doubles called "a"
+double Bad::getMin() {
+
+    // Sort the array
+    sort(numarray.begin(), numarray.end());
+
+    // Now we just return the first element, which after sorting is the minimum
+    return numarray[0];
 
 }
 
-// This function computes the minimum value of a vector of doubles called "a"
-double m1(vector<double> a)
-{
+// This method computes the maximum value of a vector of doubles called "a"
+double Bad::getMax() {
 
-  // First, we sort the array
-  sort(a.begin(), a.end());
+    // Sort the array
+    sort(numarray.begin(), numarray.end());
 
-  // Now we just return the first element, which after sorting is the minimum
-  return a[0];
-
-}
-
-// This function computes the maximum value of a vector of doubles called "a"
-double m2(vector<double> a)
-{
-
-  // First, we sort the array
-  sort(a.begin(), a.end());
-
-  // Now we just return the last element, which after sorting is the Maximum
-  return a[ a.size() - 1 ];
+    // Now we just return the last element, which after sorting is the Maximum
+    return numarray[ numarray.size() - 1 ];
 
 }
 
-// This function computes the median of a vector of doubles called "a"
-double m3(vector<double> a)
-{
+// This method computes the median of a vector of doubles called "a"
+double Bad::getMedian() {
 
-  // First, we sort the array
-  sort(a.begin(), a.end());
+    // Sort the array
+    sort(numarray.begin(), numarray.end());
 
-  // This bit's a little tricky
-  if (a.size() % 2)
-  {
-    // If we have an odd number of elements, the median is the middle one
-    return a[ (a.size() - 1 ) / 2];
-  }
-  else
-  {
-    // Otherwise, we average the values of the two middlemost elements
-    return 0.5*(a[ a.size() / 2 ] + a[ a.size() / 2 - 1]);
-  }
-
+    if (numarray.size() % 2 == 0) {
+        // For even number of elements, average the values of the two middlemost elements
+        return 0.5*(numarray[ numarray.size() / 2 ] + numarray[ numarray.size() / 2 - 1]);
+    }
+    else {
+        // Otherwise, the median is the middle one
+        return numarray[ (numarray.size() - 1 ) / 2];
+    }
 }
 
-// This will parse a line of whitespace-separated numbers into an array
+// This function parses a line of whitespace-separated numbers and return an object of Bad class
 // The first number is the count of numbers, and the rest are the numbers
-vector<double> s2a(string s) {
-  istringstream iss(s);
+Bad s2a(string s) {
+    istringstream iss(s);
 
-  // "n" is the number of elements in our array, which comes first
-  int n;
+    // n is the number of elements in our array, which comes first
+    int n;
 
-  iss >> n;
+    iss >> n;
 
-  vector<double> a(n);
+    vector<double> a(n);
 
-  for (int i = 0;
-       i < n;
-       ++i)
-  {
-    iss >> a[i];
-  }
-
-
-  return a;
-
+    for (int i = 0; i < n; ++i) {
+        iss >> a[i];
+    }
+    return Bad(a);
 }
 
-// This where the magic happens!
-void go(string s)
-{
+int main(void) {
 
-  // Turn our string of input into an array (above)
-  vector<double> a = s2a(s);
+    cout << "Please enter, on one line, the count of numbers followed by the numbers themselves, separated by spaces.\nEnter a blank line to exit.\n\n";
 
-  // Be polite and give the the user the basic stats on their data
-  cout << "Thanks!\n" << "The minimum is " << m1(a) << ",\nthe maximum is " << m2(a) << ",\nthe median is " << m3(a) << ",\nand the mean is " << m0(a) << ".\n\n";
+    string s;
 
-  return;
+    while ( getline(cin , s) ) {
 
-}
+        if ( s.length() == 0 )
+            break;
 
-int main(void)
-{
+        Bad bad = s2a(s);
 
-  cout << "Please enter, on one line, the count of numbers followed by the numbers themselves, separated by spaces.\nEnter a blank line to exit.\n\n";
+        cout << "Thanks!\n" << "The minimum is " << bad.getMin() << ",\nthe maximum is " << bad.getMax() << ",\nthe median is " << bad.getMedian() << ",\nand the mean is " << bad.getMean() << ".\n\n";
 
-  string s;
-
-  while ( getline( cin , s ) ) {
-
-    if ( s.length( ) == 0 )
-        break;
-
-    go(s);
-
-  }
-
-  return 0;
+    }
+    return 0;
 }
