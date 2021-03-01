@@ -5,56 +5,75 @@
 
 using namespace std;
 
-// Takes in a vector and returns the mean
-double mean(vector<double> vect) {
-  double sum = 0.0;
-  for (unsigned int i = 0; i < vect.size(); ++i) {
-    sum += vect[i];
-  }
-  return sum/vect.size();
-}
+class myVector {
+    public:
+        vector<double> vect;
+        myVector(vector<double> newVect) {
+            vect = newVect;
+            sort(vect.begin(), vect.end());
+        }
 
-// Takes in a vector and returns the minimum value
-double min(vector<double> vect) {
-  sort(vect.begin(), vect.end());
-  return vect[0];
-}
+        // Takes in a vector and returns the mean
+        double mean() {
+          double sum = 0.0;
+          for (unsigned int i = 0; i < vect.size(); ++i) {
+            sum += vect[i];
+          }
+          return sum/vect.size();
+        }
 
-// Takes in a vector and returns the maximum value
-double max(vector<double> vect) {
-  sort(vect.begin(), vect.end());
-  return vect[ vect.size() - 1 ];
-}
+        // Takes in a vector and returns the minimum value
+        double min() {
+          return vect[0];
+        }
 
-// Takes in a vector and returns the median value
-double median(vector<double> vect) {
-  sort(vect.begin(), vect.end());
-  // If we have an odd number of elements, the median is the middle one
-  if (vect.size() % 2) {
-    return vect[ (vect.size() - 1 ) / 2];
-  }
-  // Otherwise, we average the values of the two middlemost elements
-  else {
-    return 0.5*(vect[ vect.size() / 2 ] + vect[ vect.size() / 2 - 1]);
-  }
-}
+        // Takes in a vector and returns the maximum value
+        double max() {
+          return vect[ vect.size() - 1 ];
+        }
 
-// Takes in a string of numbers separated by white space and returns the numbers in an array
+        // Takes in a vector and returns the median value
+        double median() {
+          // If we have an odd number of elements, the median is the middle one
+          if (vect.size() % 2) {
+            return vect[ (vect.size() - 1 ) / 2];
+          }
+          // Otherwise, we average the values of the two middlemost elements
+          else {
+            return 0.5*(vect[ vect.size() / 2 ] + vect[ vect.size() / 2 - 1]);
+          }
+        }
+};
+
+// Takes in a string of numbers separated by white space and returns the numbers in an array.
+// Quits if an incorrect number of numbers was inputted
 vector<double> s2a(string s) {
   istringstream iss(s);
-  int n;
-  iss >> n;
-  vector<double> vect(n);
-  for (int i = 0; i < n; ++i) {
-    iss >> vect[i];
+  int length;
+  //head of the stream is the length
+  iss >> length;
+  vector<double> vect(length);
+  int next;
+  int index = 0;
+  while( iss >> next) {
+      vect[index] = next;
+      index ++;
+  }
+  if(index < length) {
+      cout << "You didn't enter enough numbers! Run the program and try again. ";
+      exit(0);
+  }
+  if(index > length) {
+      cout << "Too many numbers! Run the program and try again. ";
+      exit(0);
   }
   return vect;
 }
 
 // Prints associated information with the vector
 void printInfo(string s) {
-  vector<double> a = s2a(s);
-  cout << "Thanks!\n" << "The minimum is " << min(a) << ",\nthe maximum is " << max(a) << ",\nthe median is " << median(a) << ",\nand the mean is " << mean(a) << ".\n\n";
+  myVector newVect(s2a(s));
+  cout << "Thanks!\n" << "The minimum is " << newVect.min() << ",\nthe maximum is " << newVect.max() << ",\nthe median is " << newVect.median() << ",\nand the mean is " << newVect.mean() << ".\n\n";
   return;
 }
 
