@@ -108,7 +108,10 @@ int main(void) {
 
         Bad bad = s2a(s);
 
-        cout << "Thanks!\n" << "The minimum is " << bad.getMin() << ",\nthe maximum is " << bad.getMax() << ",\nthe median is " << bad.getMedian() << ",\nand the mean is " << bad.getMean() << ".\n\n";
+        cout << "Thanks!\n" << "The minimum is " << bad.getMin() << ",\n";
+        cout << "the maximum is " << bad.getMax() << ",\n";
+        cout << "the median is " << bad.getMedian() << ",\n";
+        cout << "and the mean is " << bad.getMean() << ".\n\n";
 
     }
     return 0;
