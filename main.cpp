@@ -5,120 +5,96 @@
 
 using namespace std;
 
-// This function computes the mean of a vector of doubles called "a"
-double m0(vector<double> a)
-{
-  // This is the sum
-  double s = 0.0;
 
- // Loop through all elements of the array
-  for (unsigned int i = 0; i < a.size(); ++i)
-  {
-    // Add the element to the sum
-    s += a[i];
-  }
+class NumberList {
+public:
+    vector<double> sorted;
+    int listSize;
 
-   // The mean is the sum divided by the count---return that
-  return s/a.size();
+    NumberList(vector<double> _a):sorted(_a), listSize(_a.size()) {
+        sort(sorted.begin(), sorted.end());
+    }
 
-}
+    double mean() {
+        double s = 0.0;
+        for ( int i = 0; i < listSize; ++i) {
+            s += sorted[i];
+        }
+        return s/listSize;
+    }
 
-// This function computes the minimum value of a vector of doubles called "a"
-double m1(vector<double> a)
-{
+    double minimum() {
+        return sorted[0];
+    }
 
-  // First, we sort the array
-  sort(a.begin(), a.end());
+    double maximum() {
+        return sorted[listSize-1];
+    }
 
-  // Now we just return the first element, which after sorting is the minimum
-  return a[0];
+    double median() {
+        if (listSize % 2) {
+            return sorted[(listSize-1)/2];
+        }
+        else {
+            int mid = listSize/2;
+            return 0.5*(sorted[mid] + sorted[mid+1]);
+        }
+    }
 
-}
-
-// This function computes the maximum value of a vector of doubles called "a"
-double m2(vector<double> a)
-{
-
-  // First, we sort the array
-  sort(a.begin(), a.end());
-
-  // Now we just return the last element, which after sorting is the Maximum
-  return a[ a.size() - 1 ];
-
-}
-
-// This function computes the median of a vector of doubles called "a"
-double m3(vector<double> a)
-{
-
-  // First, we sort the array
-  sort(a.begin(), a.end());
-
-  // This bit's a little tricky
-  if (a.size() % 2)
-  {
-    // If we have an odd number of elements, the median is the middle one
-    return a[ (a.size() - 1 ) / 2];
-  }
-  else
-  {
-    // Otherwise, we average the values of the two middlemost elements
-    return 0.5*(a[ a.size() / 2 ] + a[ a.size() / 2 - 1]);
-  }
-
-}
-
-// This will parse a line of whitespace-separated numbers into an array
-// The first number is the count of numbers, and the rest are the numbers
-vector<double> s2a(string s) {
-  istringstream iss(s);
-
-  // "n" is the number of elements in our array, which comes first
-  int n;
-
-  iss >> n;
-
-  vector<double> a(n);
-
-  for (int i = 0;
-       i < n;
-       ++i)
-  {
-    iss >> a[i];
-  }
-
-
-  return a;
-
-}
+};
 
 // This where the magic happens!
-void go(string s)
-{
+void go(string userInput) {
+    istringstream iss(userInput);
 
-  // Turn our string of input into an array (above)
-  vector<double> a = s2a(s);
+    // "n" is the number of elements in our array, which comes first
+    int count;
+
+    iss >> count; //remove n from the head of the stream
+
+    vector<double> unsorted(count); // new vector a will be of size n
+
+    int num;
+    int i = 0;
+    while (iss >> num) {
+        if (i == count) {
+            cout << "The list you gave is too long! \nTry again and don't lie to me this time. \n\n";
+            return;
+        }
+        else {
+            cout << i <<"th item: ";
+            unsorted[i] = num;
+            cout << unsorted[i] << "\n";
+            ++i;
+        }
+    }
+
+    if (i<count){
+        cout << "The list you gave isn't long enough! \nTry again and don't lie to me this time. \n\n";
+        return;
+    }
+
+
+    NumberList userInputList = NumberList(unsorted);
 
   // Be polite and give the the user the basic stats on their data
-  cout << "Thanks!\n" << "The minimum is " << m1(a) << ",\nthe maximum is " << m2(a) << ",\nthe median is " << m3(a) << ",\nand the mean is " << m0(a) << ".\n\n";
+  cout << "Thanks!\n" << "The minimum is " << userInputList.minimum() << ",\nthe maximum is " << userInputList.maximum() << ",\nthe median is " << userInputList.median() << ",\nand the mean is " << userInputList.mean() << ".\n\n";
 
   return;
 
 }
 
-int main(void)
-{
+int main(void) {
 
   cout << "Please enter, on one line, the count of numbers followed by the numbers themselves, separated by spaces.\nEnter a blank line to exit.\n\n";
 
-  string s;
+  string userInput;
 
-  while ( getline( cin , s ) ) {
-
-    if ( s.length( ) == 0 )
+  while ( getline( cin , userInput ) ) {
+    if ( userInput.length( ) == 0 )
         break;
 
-    go(s);
+    go(userInput);
 
   }
 
